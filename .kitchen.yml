@@ -34,7 +34,7 @@ suites:
         - test/smoke/default
     provisioner:
       extra_vars:
-        vault_http_addr: "http://172.20.10.12:8200"
+        vault_http_addr: "<%= ENV['VAULT_ADDR'] || 'http://127.0.0.1:8200' %>"
         vault_token: "<%= ENV['VAULT_AUTH_TOKEN'] %>"
         # the following variables are not working with hashi_vault lookup plugin for approle; keeping here for future reference
         vault_role_id: "<%= ENV['ANSIBLE_HASHICORP_VAULT_ROLE_ID'] %>"

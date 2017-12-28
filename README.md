@@ -3,7 +3,7 @@ A simple playbook to deploy a dummy app to demonstrate provisioning with Hashico
 
 ## Setup
 
-* First, we must provision our Vault cluster using the playbook found [here](https://github.com/contino/vault-cluster-playbook.git):
+* First, we must provision our local Vault cluster using the playbook found [here](https://github.com/contino/vault-cluster-playbook.git):
 ```
 $ git clone https://github.com/contino/vault-cluster-playbook.git
 $ cd vault-cluster-playbook
@@ -11,7 +11,7 @@ $ ansible-galaxy install -p ./roles -r requirements.yml
 $ kitchen converge
 ```
 
-* Next, we must login to one of our Vault nodes and unseal our newly provisioned Vault cluster.
+* Next, we must login to one of our Vault nodes and unseal our newly provisioned Vault cluster.  Be sure to copy the Root-Token for later!
 ```
 $ kitchen login cluster-01
 $ vault init
@@ -68,5 +68,5 @@ token_meta_role_name    "ansible-controller"
 
 * Next, we need to create a new Token for our playbook to use for authentication so that it can retrieve the secrets that we need during our provisioning tasks:
 ```
-vault token-create -id="00000000-0000-0000-0000-000000000000" -policy="root"
+vault token-create -policy="root"
 ```
