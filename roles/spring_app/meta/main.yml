@@ -1,0 +1,8 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: jsalbright
+  description: Spring Web + Hashicorp Vault integration using hashi-vault lookup-plugin
+  company: "Jordan Scott Albright"
+  license: "license (BSD, MIT)"

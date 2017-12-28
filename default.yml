@@ -1,0 +1,9 @@
+---
+- name: Spring Vault Demo
+  hosts: all
+  remote_user: root
+  tasks:
+    - name: Get a secret from Vault
+      debug: msg="{{ lookup('hashi_vault', 'secret={{ vault_secret_path }}:{{ vault_secret_field }} token={{ vault_token}} url={{ vault_http_addr }}') }}"
+  roles:
+    - spring_app

@@ -1,0 +1,44 @@
+---
+- name: webapp group
+  group:
+    name: "{{ webapp_group }}"
+
+- name: webapp user
+  user:
+    name: "{{ webapp_user }}"
+    group: "{{ webapp_group }}"
+
+- name: install jdk
+  package:
+    name: "java-{{ jdk_version }}-openjdk-devel.x86_64"
+    state: present
+    update_cache: yes
+
+- name: install unzip
+  package:
+    name: unzip
+    state: present
+    update_cache: yes
+
+- name: install openssl
+  package:
+    name: openssl
+    state: present
+    update_cache: yes
+
+- name: install pip
+  package:
+    name: python2-pip.noarch
+    state: present
+    update_cache: yes
+
+- name: install hvac python lib
+  pip:
+    name: hvac
+
+- name: create secret app config
+  template:
+    src: secret_config.json.j2
+    dest: /tmp/secret_config.json
+    owner: "{{ webapp_user }}"
+    group: "{{ webapp_group }}"

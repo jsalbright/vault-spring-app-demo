@@ -1,0 +1,41 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: ansible_playbook
+  require_chef_for_busser: false
+  hosts: all
+  lookup_plugins_path: "<%= ENV['ANSIBLE_LOOKUP_PLUGINS_PATH'] || 'lookup_plugins' %>"
+  env_vars:
+    # The following env variables do not currently work with the hashi_vault lookup plugin for approle; keeping here for future reference
+    ANSIBLE_HASHICORP_VAULT_ROLE_ID: "<%= ENV['ANSIBLE_HASHICORP_VAULT_ROLE_ID'] %>"
+    ANSIBLE_HASHICORP_VAULT_SECRET_ID: "<%= ENV['ANSIBLE_HASHICORP_VAULT_SECRET_ID'] %>"
+
+transport:
+  max_ssh_sessions: 6
+
+platforms:
+  - name: centos-7.4
+
+verifier:
+  name: inspec
+
+suites:
+  - name: spring-app-01
+    driver:
+      network:
+        - ['private_network', {ip: '172.20.11.10'}]
+      customize:
+        memory: 1024
+        cpus: 1
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    provisioner:
+      extra_vars:
+        vault_http_addr: "http://172.20.10.12:8200"
+        vault_token: "<%= ENV['VAULT_AUTH_TOKEN'] %>"
+        # the following variables are not working with hashi_vault lookup plugin for approle; keeping here for future reference
+        vault_role_id: "<%= ENV['ANSIBLE_HASHICORP_VAULT_ROLE_ID'] %>"
+        vault_secret_id: "<%= ENV['ANSIBLE_HASHICORP_VAULT_SECRET_ID'] %>"

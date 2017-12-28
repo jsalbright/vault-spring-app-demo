@@ -1,0 +1,6 @@
+[local]
+172.20.11.10 consul_bind_addr=172.20.10.10
+
+
+[local:vars]
+consul_first_node_ip=172.20.10.10
